@@ -2,13 +2,10 @@ package com.yy.magerpage.ui.widget.view.base
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import com.bumptech.glide.Glide
+import com.yy.magerpage.MagicPagerManager
 import com.yy.magerpage.R
 import com.yy.magerpage.model.widget.base.NavigationBarModel
 import com.yy.magerpage.ui.widget.view.IMagic
@@ -34,7 +31,7 @@ class MagicNavigationBar(context: Context) :
 
             //背景图片
             model.bgImage?.let { bg ->
-                Glide.with(this).load(bg).into(bgImg)
+                MagicPagerManager.get().imageProvider?.loadImage(bgImg, bg)
             }
 
             //左边按钮

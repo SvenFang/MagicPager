@@ -1,10 +1,7 @@
 package com.yy.magerpage
 
 import android.content.Context
-import com.yy.magerpage.provider.IActionProvider
-import com.yy.magerpage.provider.ILog
-import com.yy.magerpage.provider.IMagicProvider
-import com.yy.magerpage.provider.MagicProviderCallBack
+import com.yy.magerpage.provider.*
 import com.yy.magerpage.script.MagicScript
 import com.yy.magerpage.script.ScriptBridge
 import com.yy.magerpage.util.LengthUtil
@@ -39,6 +36,8 @@ class MagicPagerManager() {
 
     private val pagerScripts: WeakHashMap<Context, MagicScript> = WeakHashMap()
 
+    var imageProvider: IImageLoadProvider? = null
+    
     private val scriptBridge: ScriptBridge = ScriptBridge()
     fun getScriptBridge(): ScriptBridge {
         return scriptBridge

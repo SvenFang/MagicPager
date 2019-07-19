@@ -4,12 +4,15 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
+import com.bumptech.glide.Glide
 import com.yy.magerpage.MagicPagerManager
 import com.yy.magerpage.model.widget.BaseWidgetModel
 import com.yy.magerpage.model.widget.base.ImageWidgetModel
 import com.yy.magerpage.model.widget.collection.CarouselWidgetModel
 import com.yy.magerpage.model.widget.collection.FrameWidgetModel
+import com.yy.magerpage.provider.IImageLoadProvider
 import com.yy.magerpage.provider.ILog
 import com.yy.magerpage.provider.IMagicProvider
 import com.yy.magerpage.provider.MagicProviderCallBack
@@ -40,6 +43,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initMagic() {
+        MagicPagerManager.get().imageProvider = object : IImageLoadProvider {
+            override fun loadImage(imageView: ImageView, url: String) {
+                Glide.with(imageView).load(url).into(imageView)
+            }
+
+        }
+
         MagicPagerManager.get().addPagerProvider(object : IMagicProvider {
             override fun getProviderType(): String {
                 return "test"

@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 
+
 apply from: './compile.gradle'
 
 android {
@@ -108,8 +109,6 @@ dependencies {
 
     //JSON解析
     implementation "com.google.code.gson:gson:${gson_version}"
-    api "com.github.bumptech.glide:glide:${glide_version}"
-    kapt "com.github.bumptech.glide:compiler:${glide_version}"
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     api "org.jetbrains.kotlin:kotlin-android-extensions-runtime:$kotlin_version"

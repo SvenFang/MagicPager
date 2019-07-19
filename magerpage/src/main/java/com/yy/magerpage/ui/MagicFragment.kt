@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.google.gson.reflect.TypeToken
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
@@ -240,7 +239,7 @@ class MagicFragment : RxFragment() {
     private fun layoutPage(model: MagicPagerModel) {
         rootView.setBackgroundColor(Color.parseColor(model.bgColor))
         model.bgImage?.let {
-            Glide.with(bgImage).asBitmap().load(it).into(bgImage)
+            MagicPagerManager.get().imageProvider?.loadImage(bgImage, it)
         }
     }
 

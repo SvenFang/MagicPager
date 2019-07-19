@@ -1,5 +1,6 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
+apply plugin: 'maven'
 
 def isReleaseBuild() {
     return version.contains("SNAPSHOT") == false
@@ -81,4 +82,5 @@ publishing {
         }
     }
 }
+
 
