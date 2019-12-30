@@ -1,0 +1,178 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+
+apply from: './compile.gradle'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName version
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+
+        debug {
+            debuggable true
+            shrinkResources false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            shrinkResources false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:support-v4:${support_version}"
+    implementation "com.android.support:gridlayout-v7:${support_version}"
+    implementation "com.android.support:recyclerview-v7:${support_version}"
+    implementation "com.android.support:appcompat-v7:${support_version}"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation('com.android.support.constraint:constraint-layout:2.0.0-alpha2') {
+        exclude group: "com.android.support", module: "support-v4"
+        exclude group: "com.android.support", module: "appcompat-v7"
+    }
+
+
+    api "com.github.bumptech.glide:glide:${glide_version}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${glide_version}"
+
+    //流式布局
+    implementation 'com.google.android:flexbox:1.0.0'
+
+    //rxjava相关
+    api("io.reactivex.rxjava2:rxjava:${rxjava2_version}") {
+        exclude group: "com.android.support", module: "appcompat-v7"
+    }
+    api("io.reactivex.rxjava2:rxandroid:${rxandroid_version}") {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+    }
+
+    //rx生命周期管理
+    api("com.trello.rxlifecycle2:rxlifecycle:${rxlifecycle2_version}") {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+    }
+    api("com.trello.rxlifecycle2:rxlifecycle-android:${rxlifecycle2_version}") {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+        exclude group: 'io.reactivex.rxjava2', module: 'rxandroid'
+        exclude group: 'com.trello.rxlifecycle2', module: 'rxlifecycle'
+    }
+    api("com.trello.rxlifecycle2:rxlifecycle-components:${rxlifecycle2_version}") {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+        exclude group: 'com.trello.rxlifecycle2', module: 'rxlifecycle-android'
+    }
+
+    //封装rx发射，消息传输总线
+    api("com.jakewharton.rxrelay2:rxrelay:${rxrelay2_version}") {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+    }
+
+    //JSON解析
+    implementation "com.google.code.gson:gson:${gson_version}"
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-android-extensions-runtime:$kotlin_version"
+    api 'com.github.salomonbrys.kotson:kotson:2.5.0'
+    api 'org.mozilla:rhino:1.7.11'
+    implementation('com.github.yyued:SVGAPlayer-Android:2.4.7')
+
+
+}
+repositories {
+    mavenCentral()
+}
+
+apply from: '../publish.gradle'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId "${GROUP}"
+            artifactId 'magicpager'
+            artifact "${buildDir}/outputs/aar/${project.name}-release.aar"
+            artifact androidSourcesJar
+
+            pom.withXml {
+                //Creating additional node for dependencies
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                //Defining configuration names from which dependencies will be taken (debugCompile or releaseCompile and compile)
+                def configurationNames = ["releaseCompile", 'compile', 'api', 'implementation']
+
+                configurationNames.each { configurationName ->
+                    configurations[configurationName].allDependencies.each {
+                        if (it.group != null && it.name != null) {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId',    it.group)
+                            dependencyNode.appendNode('artifactId', it.name)
+                            dependencyNode.appendNode('version',    it.version)
+
+                            //If there are any exclusions in dependency
+                            if (it.excludeRules.size() > 0) {
+                                def exclusionsNode = dependencyNode.appendNode('exclusions')
+                                it.excludeRules.each { rule ->
+                                    def exclusionNode = exclusionsNode.appendNode('exclusion')
+                                    exclusionNode.appendNode('groupId', rule.group)
+                                    exclusionNode.appendNode('artifactId', rule.module)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+publish.dependsOn build
+publishToMavenLocal.dependsOn build
+
+tasks.withType(Jar){jarTask->
+    if(jarTask.name.equals('packageReleaseJar')){
+        jarTask.from android.sourceSets.main.java.srcDirs
+    }
+}
+

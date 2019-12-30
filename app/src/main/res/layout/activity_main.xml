@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:id="@+id/ll_test">
+
+    <Button
+        android:id="@+id/test1Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="调试页面"/>
+
+    <Button
+        android:id="@+id/test2Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="宝箱页面"/>
+
+    <Button
+        android:id="@+id/test3Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="动态添加魔法页面"/>
+
+    <Button
+        android:textAllCaps="false"
+        android:id="@+id/tvDialogFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="dialogFragment对话框"/>
+    <Button
+        android:textAllCaps="false"
+        android:id="@+id/tvPopWindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="popWindow"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下方为魔法页面Frame，可植入到其他页面"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:layout_margin="5dp"/>
+
+    <FrameLayout
+        android:id="@+id/test_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:orientation="vertical"
+            android:gravity="bottom">
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/holo_red_dark"
+                android:layout_gravity="end"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+</LinearLayout>
