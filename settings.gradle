@@ -1,1 +1,1 @@
-include ':app', ':MagerPager'
+include ':app', ':MagicPager'
