@@ -29,8 +29,6 @@ enum class WidgetModelType(var type: String) {
 
     SLIDER_TYPE("SLIDER_TYPE"),
 
-    SCROLL_TYPE("SCROLL_TYPE"),
-
     LINEAR_TYPE("LINEAR_TYPE"),
 
     //其他

@@ -9,15 +9,10 @@ import com.google.android.flexbox.JustifyContent
 import com.yy.magerpage.model.widget.BaseWidgetModel
 import com.yy.magerpage.model.widget.collection.FlexBoxWidgetModel
 import com.yy.magerpage.model.widget.collection.MFlexDirection
-import com.yy.magerpage.model.widget.collection.MFlexWrap
 import com.yy.magerpage.model.widget.collection.MJustifyContent
 import com.yy.magerpage.ui.widget.creator.MagicViewCreator
 import com.yy.magerpage.ui.widget.view.AbstractCollectionMagic
 import com.yy.magerpage.ui.widget.view.AbstractMagic
-import com.yy.magerpage.model.widget.collection.MAlignItems
-import com.yy.magerpage.model.widget.collection.MAlignContent
-import com.google.android.flexbox.AlignItems
-import com.google.android.flexbox.AlignContent
 
 /**
  * Created by Sven on 17/05/2019
@@ -28,10 +23,8 @@ class MagicFlexbox(context: Context) :
     override fun analysisCollectionData(model: FlexBoxWidgetModel) {
         mContentView?.let {
             it.flexDirection = flexDirection(model.flexDirection)
-            it.flexWrap = flexWrap(model.flexWrap)
+            it.flexWrap = FlexWrap.WRAP
             it.justifyContent = justifyContent(model.justifyContent)
-            it.alignItems = alignItems(model.alignItems)
-            it.alignContent = alignContent(model.alignContent)
         }
     }
 
@@ -65,42 +58,11 @@ class MagicFlexbox(context: Context) :
         }
     }
 
-    private fun flexWrap(value: MFlexWrap): Int {
-        return when (value) {
-            MFlexWrap.NOWRAP -> FlexWrap.NOWRAP
-            MFlexWrap.WRAP -> FlexWrap.WRAP
-            MFlexWrap.WRAP_REVERSE -> FlexWrap.WRAP_REVERSE
-        }
-    }
-
     private fun justifyContent(value: MJustifyContent): Int {
         return when (value) {
             MJustifyContent.FLEX_START -> JustifyContent.FLEX_START
             MJustifyContent.FLEX_END -> JustifyContent.FLEX_END
             MJustifyContent.CENTER -> JustifyContent.CENTER
-            MJustifyContent.SPACE_AROUND -> JustifyContent.SPACE_AROUND
-            MJustifyContent.SPACE_BETWEEN -> JustifyContent.SPACE_BETWEEN
-        }
-    }
-
-    private fun alignItems(value: MAlignItems): Int {
-        return when (value) {
-            MAlignItems.FLEX_START -> AlignItems.FLEX_START
-            MAlignItems.FLEX_END -> AlignItems.FLEX_END
-            MAlignItems.BASELINE -> AlignItems.BASELINE
-            MAlignItems.CENTER -> AlignItems.CENTER
-            MAlignItems.STRETCH -> AlignItems.STRETCH
-        }
-    }
-
-    private fun alignContent(value: MAlignContent): Int {
-        return when (value) {
-            MAlignContent.FLEX_START -> AlignContent.FLEX_END
-            MAlignContent.FLEX_END -> AlignContent.FLEX_END
-            MAlignContent.CENTER -> AlignContent.CENTER
-            MAlignContent.SPACE_AROUND -> AlignContent.SPACE_AROUND
-            MAlignContent.SPACE_BETWEEN -> AlignContent.SPACE_BETWEEN
-            MAlignContent.STRETCH -> AlignContent.STRETCH
         }
     }
 }

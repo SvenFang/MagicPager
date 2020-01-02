@@ -36,7 +36,6 @@ class MagicContainerView(context: Context?, attrs: AttributeSet?) :
     }
 
     private fun initView() {
-
         containerView = findViewById(R.id.containerView)
 
         flNav = findViewById(R.id.fl_nav)
@@ -78,7 +77,6 @@ class MagicContainerView(context: Context?, attrs: AttributeSet?) :
                 FrameLayout.LayoutParams.MATCH_PARENT
             )
         )
-
     }
 
     private fun addWidgetToLayout(model: BaseWidgetModel, viewGroup: ViewGroup?) {

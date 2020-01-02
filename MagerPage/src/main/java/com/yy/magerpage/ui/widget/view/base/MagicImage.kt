@@ -50,15 +50,16 @@ class MagicImage(context: Context) : AbstractMagic<ImageWidgetModel, ImageView>(
                 tranforms.add(RoundedCorners(LengthUtil.length2px(model.corner, context)))
             }
 
-            if (null != model.imgSrc) {
+            if (null != model.imgSrc && model.imgSrc!!.isNotEmpty()) {
                 builder = builder.load(model.imgSrc)
                 if (null != model.imgRes) {
                     var errorBuilder =
                         Glide.with(mContentView!!).asBitmap().load(model.imgRes!!)
                     if (tranforms.size > 0) {
-                        errorBuilder = errorBuilder.transform(MultiTransformation(tranforms))
+                        errorBuilder =
+                            errorBuilder.transform(MultiTransformation(tranforms)).dontAnimate()
                     }
-                    builder = builder.error(errorBuilder)
+                    builder = builder.error(errorBuilder).dontAnimate()
                 }
             } else if (null != model.imgRes) {
                 builder = builder.load(model.imgRes)

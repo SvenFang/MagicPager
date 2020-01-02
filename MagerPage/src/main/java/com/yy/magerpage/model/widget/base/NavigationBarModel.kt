@@ -19,7 +19,7 @@ class NavigationBarModel : BaseWidgetModel() {
     }
 
     var left: BaseWidgetModel? = createDefaultBack()
-    var right: ButtonWidgetModel? = null
+    var right: BaseWidgetModel? = null
     var bgImage: String? = null
 
     var title: TextWidgetModel? = null

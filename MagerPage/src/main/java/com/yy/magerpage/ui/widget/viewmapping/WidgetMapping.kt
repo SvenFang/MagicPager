@@ -12,7 +12,6 @@ import com.yy.magerpage.model.widget.base.ImageWidgetModel
 import com.yy.magerpage.model.widget.base.ButtonWidgetModel
 import com.yy.magerpage.model.widget.base.TextWidgetModel
 import com.yy.magerpage.model.widget.base.SvgaWidgetModel
-import com.yy.magerpage.model.widget.base.ScrollViewWidgetModel
 import com.yy.magerpage.model.widget.base.NavigationBarModel
 import com.yy.magerpage.ui.widget.view.AbstractMagic
 import com.yy.magerpage.ui.widget.view.base.MagicBlank
@@ -36,7 +35,7 @@ import com.yy.magerpage.ui.widget.view.collection.MagicLinear
 import com.yy.magerpage.ui.widget.view.collection.MagicFlexbox
 import com.yy.magerpage.ui.widget.view.collection.MagicGrid
 import com.yy.magerpage.ui.widget.view.collection.MagicFrame
-import com.yy.magerpage.ui.widget.view.collection.MagicScrollView
+
 /**
  * Created by Sven on 16/05/2019
  */
@@ -125,12 +124,6 @@ object WidgetMapping {
             WidgetModelType.SLIDER_TYPE.type,
             SliderWidgetModel::class,
             MagicSlider::class
-        )
-
-        addWidgetItem(
-            WidgetModelType.SCROLL_TYPE.type,
-            ScrollViewWidgetModel::class,
-            MagicScrollView::class
         )
 
         addWidgetItem(

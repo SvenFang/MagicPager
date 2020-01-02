@@ -1,7 +1,10 @@
 package com.yy.magicpagedemo.test
 
 import com.yy.magerpage.model.container.MagicPagerModel
-import com.yy.magerpage.model.modelenum.*
+import com.yy.magerpage.model.modelenum.HorizontalAlignment
+import com.yy.magerpage.model.modelenum.ListWidgetType
+import com.yy.magerpage.model.modelenum.ScaleType
+import com.yy.magerpage.model.modelenum.VerticalAlignment
 import com.yy.magerpage.model.widget.BaseWidgetModel
 import com.yy.magerpage.model.widget.Margin
 import com.yy.magerpage.model.widget.Padding
@@ -253,7 +256,8 @@ class Test {
             //图片
             val imageModel = ImageWidgetModel()
             imageModel.imgSrc =
-                "https://review.chinabrands.cn/chinab"
+                "https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/" +
+                        "sign=1c7989f181cb39dbc1956f50e026251c/3b292df5e0fe99257d8c844b34a85edf8db1712d.jpg"
             imageModel.imgRes = R.mipmap.default_portrait_140_140
             imageModel.height = 200.0
             imageModel.width = 200.0
@@ -562,7 +566,6 @@ class Test {
 
         private fun testFlexbox(): FlexBoxWidgetModel {
             val model = FlexBoxWidgetModel()
-            model.flexWrap = MFlexWrap.WRAP
 
             val item1 = ButtonWidgetModel()
             item1.text = "0,0,1,1"

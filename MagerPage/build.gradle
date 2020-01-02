@@ -3,8 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-
-apply from: './compile.gradle'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 28
@@ -117,6 +116,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-android-extensions-runtime:$kotlin_version"
     api 'com.github.salomonbrys.kotson:kotson:2.5.0'
     api 'org.mozilla:rhino:1.7.11'
+
     implementation('com.github.yyued:SVGAPlayer-Android:2.4.7')
 
 
@@ -125,37 +125,69 @@ repositories {
     mavenCentral()
 }
 
-apply from: '../publish.gradle'
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId "${GROUP}"
-            artifactId 'magicpager'
-            artifact "${buildDir}/outputs/aar/${project.name}-release.aar"
-            artifact androidSourcesJar
+apply from: './compile.gradle'
+//apply from: '../publish.gradle'
 
-            pom.withXml {
-                //Creating additional node for dependencies
-                def dependenciesNode = asNode().appendNode('dependencies')
+group = publishedGroupId                               // Maven Group ID for the artifact
 
-                //Defining configuration names from which dependencies will be taken (debugCompile or releaseCompile and compile)
-                def configurationNames = ["releaseCompile", 'compile', 'api', 'implementation']
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                groupId publishedGroupId
+                artifactId artifact
 
-                configurationNames.each { configurationName ->
-                    configurations[configurationName].allDependencies.each {
-                        if (it.group != null && it.name != null) {
-                            def dependencyNode = dependenciesNode.appendNode('dependency')
-                            dependencyNode.appendNode('groupId',    it.group)
-                            dependencyNode.appendNode('artifactId', it.name)
-                            dependencyNode.appendNode('version',    it.version)
+                // Add your description here
+                name libraryName
+                description libraryDescription
+                url siteUrl
 
-                            //If there are any exclusions in dependency
-                            if (it.excludeRules.size() > 0) {
-                                def exclusionsNode = dependencyNode.appendNode('exclusions')
-                                it.excludeRules.each { rule ->
-                                    def exclusionNode = exclusionsNode.appendNode('exclusion')
-                                    exclusionNode.appendNode('groupId', rule.group)
-                                    exclusionNode.appendNode('artifactId', rule.module)
+                // Set your license
+                licenses {
+                    license {
+                        name licenseName
+                        url licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+
+                }
+
+                pom.withXml {
+                    //Creating additional node for dependencies
+                    def dependenciesNode = asNode().appendNode('dependencies')
+
+                    //Defining configuration names from which dependencies will be taken (debugCompile or releaseCompile and compile)
+                    def configurationNames = ["releaseCompile", 'compile', 'api', 'implementation']
+
+                    configurationNames.each { configurationName ->
+                        configurations[configurationName].allDependencies.each {
+                            if (it.group != null && it.name != null) {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                dependencyNode.appendNode('groupId',    it.group)
+                                dependencyNode.appendNode('artifactId', it.name)
+                                dependencyNode.appendNode('version',    it.version)
+
+                                //If there are any exclusions in dependency
+                                if (it.excludeRules.size() > 0) {
+                                    def exclusionsNode = dependencyNode.appendNode('exclusions')
+                                    it.excludeRules.each { rule ->
+                                        def exclusionNode = exclusionsNode.appendNode('exclusion')
+                                        exclusionNode.appendNode('groupId', rule.group)
+                                        exclusionNode.appendNode('artifactId', rule.module)
+                                    }
                                 }
                             }
                         }
@@ -163,16 +195,9 @@ publishing {
                 }
             }
         }
-
     }
 }
 
-publish.dependsOn build
-publishToMavenLocal.dependsOn build
+tasks.withType(Javadoc).all { enabled = false }
 
-tasks.withType(Jar){jarTask->
-    if(jarTask.name.equals('packageReleaseJar')){
-        jarTask.from android.sourceSets.main.java.srcDirs
-    }
-}
-
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
