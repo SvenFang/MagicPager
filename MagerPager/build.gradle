@@ -126,7 +126,6 @@ repositories {
 }
 
 apply from: './compile.gradle'
-//apply from: '../publish.gradle'
 
 group = publishedGroupId                               // Maven Group ID for the artifact
 
