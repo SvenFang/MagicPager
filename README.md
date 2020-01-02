@@ -7,6 +7,12 @@
 - 部分客户端固定页面可在apk内打包json文本文件，后期通过服务端下发实现应用内热更新
 - 最终目标以扩展控件形式增加魔法页面功能，比如支付控件，音频控件，列表的刷新动效，及更灵活的界面方式，后台的可视化控件布局
 
+### 使用方式
+```
+//JCenter
+compile 'com.github.svenfang:MagicPager:0.0.3'
+```
+
 ## 魔法页面
 ``` 
 class MagicPagerModel {
